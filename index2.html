@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macskás Képek</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+        .card img {
+            border-radius: 12px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Véletlenszerű macskás képek</h1>
+    <button class="btn" onclick="getCat()">Képek lekérése</button>
+
+    <div class="container">
+        <div class="row" id="image-container"></div>
+    </div>
+
+    <script>
+        const API_KEY = "live_UcXGvx5qxgD4Db3lqgGh19jonn5Rx2v4cxo9NZvCk6O3TRsMJfvfTWWN1uMdKaBb";
+
+        async function getCat() {
+            const res = await fetch('https://api.thecatapi.com/v1/images/search?limit=10', {
+                headers: {
+                    "x-api-key": API_KEY
+                }
+            });
+            const data = await res.json();
+
+            const container = document.getElementById("image-container");
+            container.innerHTML = "";
+
+            data.forEach(cat => {
+                const col = document.createElement("div");
+                col.className = "col-md-2 mb-4";
+                
+
+                col.innerHTML = `
+                    <div class="card h-100 shadow-sm">
+                        <img src="${cat.url}" class="card-img-top" alt="Cica kép">
+                    </div>
+                `;
+
+                container.appendChild(col);
+            });
+        }
+    </script>
+</body>
+</html>

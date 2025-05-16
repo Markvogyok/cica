@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutyás Képek</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+        .card img {
+            border-radius: 12px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Véletlenszerű kutyás képek</h1>
+    <button onclick="getDog()">Képek lekérése</button>
+
+    <div class="container">
+        <div class="row" id="image-container"></div>
+    </div>
+
+    <script>
+        const API_KEY = "live_qjJHspD5mMo7sdm6NUmqjY2hScc1ZZMHbKw6fYon3HeQW3C26fft15CvdAhUZQq6";
+
+        async function getDog() {
+            const res = await fetch(' https://api.thedogapi.com/v1/images/search?limit=20', {
+                headers: {
+                    "x-api-key": API_KEY
+                }
+            });
+            const data = await res.json();
+
+            const container = document.getElementById("image-container");
+            container.innerHTML = "";
+
+            data.forEach(dog => {
+                const col = document.createElement("div");
+                col.className = "col-md-2 mb-4";
+                
+
+                col.innerHTML = `
+                    <div class="card h-100 shadow-sm">
+                        <img src="${dog.url}" class="card-img-top" alt="Kutya kép">
+                    </div>
+                `;
+
+                container.appendChild(col);
+            });
+        }
+    </script>
+</body>
+</html>

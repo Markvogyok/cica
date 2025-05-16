@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body{
+            font-family: sans-serif;
+            text-align: center;
+            padding: 2rem;
+        }
+        img{
+            max-width: 400px;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Véletlenszerű macskás kép</h1>
+    <button onclick="getCat()">Kép lekérése</button>
+    <div class="container-fluid">
+        <div class="row" id="image-container">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="row" id="image-container-2">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "live_UcXGvx5qxgD4Db3lqgGh19jonn5Rx2v4cxo9NZvCk6O3TRsMJfvfTWWN1uMdKaBb";
+        async function getCat(){
+            const res = await fetch('https://api.thecatapi.com/v1/images/search?limit=10', {
+                headers: {
+                    "x-api-key": API_KEY
+                }
+            });
+            const data = await res.json();
+            for(var i = 0; i<5; i++){
+                const imgUrl = data[i].url;
+                document.getElementById("image-container").innerHTML = `<img src="${imgUrl}"/>`;
+                i+=1;
+                document.getElementById("image-container-2").innerHTML = `<img src="${imgUrl}"/>`;
+            }
+        }
+       
+        
+    </script>
+</body>
+</html>
